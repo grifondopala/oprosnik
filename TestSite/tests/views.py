@@ -1,6 +1,7 @@
 from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.shortcuts import redirect
 
 from .forms import *
 from .models import *
@@ -14,7 +15,7 @@ def authorization(request):
             find_user = User.objects.filter(login=login, password=password)
             if (find_user.count() == 1):
                 print("успешно")
-
+                return redirect('main')
             else:
                 print("ты ебаклак?")
     else:
@@ -22,7 +23,7 @@ def authorization(request):
     return render(request, 'tests/authorization.html', {'form': form})
 
 def main(request):
-    return HttpResponse('Homepage')
+    return render(request, 'tests/main.html' )
 
 def registration(request):
     if request.method == 'POST':
@@ -46,3 +47,5 @@ def registration(request):
     else:
         form = RegistrationForm()
     return render(request, 'tests/registration.html', {'form': form})
+def creation(request):
+    return render(request, 'creation.html', {'form': form})
