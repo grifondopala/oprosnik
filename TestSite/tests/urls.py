@@ -3,5 +3,7 @@ from django.urls import path, include
 from .views import *
 
 urlpatterns = [
-    path('', index)
+    path('', authorization),
+    path('main', main),
+    path('registration', registration),
 ]
