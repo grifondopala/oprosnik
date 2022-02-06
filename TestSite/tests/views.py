@@ -47,5 +47,10 @@ def registration(request):
     else:
         form = RegistrationForm()
     return render(request, 'tests/registration.html', {'form': form})
+
 def creation(request):
-    return render(request, 'creation.html', {'form': form})
+    if request.method == 'POST':
+        pass
+    else:
+        pass
+    return render(request, 'tests/creation.html')
