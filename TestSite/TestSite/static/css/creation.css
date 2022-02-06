@@ -1,0 +1,21 @@
+.test_div {
+    clear: both;
+    width: 100%;
+    position:relative;
+}
+.settings {
+    background-color: red;
+    float: left;
+    width: 60%;
+    margin-left:20%;
+    margin-top: 5%;
+    position: relative;
+}
+.question{
+    background-color: red;
+    float: left;
+    width: 60%;
+    margin-left:20%;
+    margin-top: 1%;
+    position: relative;
+}
