@@ -4,7 +4,7 @@
     position:relative;
 }
 .settings {
-    background-color: red;
+    background-color: darkgray;
     float: left;
     width: 60%;
     margin-left:20%;
@@ -12,7 +12,28 @@
     position: relative;
 }
 .question{
-    background-color: red;
+    background-color: darkgray;
+    float: left;
+    width: 60%;
+    margin-left:20%;
+    margin-top: 1%;
+    position: relative;
+}
+.add_question{
+    background-color: darkgray;
+    float: left;
+    width: 60%;
+    margin-left:20%;
+    margin-top: 1%;
+    position: relative;
+}
+.questions {
+    clear: both;
+    width: 100%;
+    position:relative;
+}
+.new_field{
+    background-color: darkgray;
     float: left;
     width: 60%;
     margin-left:20%;

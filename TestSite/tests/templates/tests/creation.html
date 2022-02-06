@@ -10,13 +10,17 @@
     <div class="test_div">
         <div class="settings">
             <h1>Создать тест</h1>
-            <input>
+             <label>Название: </label><input>
+
             <br>
             <input type="checkbox" checked ><label>Публичный тест</label>
         </div>
-        <div class="question">
-            хай
-        </div>
+        <div class="questions"></div> <!--контейнер с вопросами-->
+        <button class = 'add_question'>Добавить вопрос</button>
+        <br>
+        <button class = 'add_question'>Создать тест</button>
     </div>
+    <script src=" {% static 'js/creation.js' %} "></script>
 </body>
 </html>
+
