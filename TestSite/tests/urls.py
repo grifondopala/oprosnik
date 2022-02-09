@@ -6,5 +6,5 @@ urlpatterns = [
     path('', authorization),
     path('main', main, name = 'main'),
     path('registration', registration),
-    path('create-test', creation)
+    path('create-test', creation),
 ]

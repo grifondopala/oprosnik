@@ -15,7 +15,9 @@ def authorization(request):
             find_user = User.objects.filter(login=login, password=password)
             if (find_user.count() == 1):
                 print("успешно")
-                return redirect('main')
+                response = redirect('main')
+                response.set_cookie('login', login)
+                return response
             else:
                 print("ты ебаклак?")
     else:
@@ -23,7 +25,8 @@ def authorization(request):
     return render(request, 'tests/authorization.html', {'form': form})
 
 def main(request):
-    return render(request, 'tests/main.html' )
+    print(request.COOKIES.get('login'))
+    return render(request, 'tests/main.html')
 
 def registration(request):
     if request.method == 'POST':
@@ -52,5 +55,6 @@ def creation(request):
     if request.method == 'POST':
         pass
     else:
+        print(request.COOKIES.get('login'))
         pass
     return render(request, 'tests/creation.html')
