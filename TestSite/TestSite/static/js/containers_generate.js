@@ -1,7 +1,8 @@
 export function generate_question_container(type_question){
     var text = `<label> Тип вопроса: </label>
                 <p><input type="radio" name=${type_question} value="Выбор"> Вопрос с вариантами выбора
-                <input type="radio" name=${type_question} value="Ввод"> Вопрос с вводом ответа </p>`;
+                <input type="radio" name=${type_question} value="Ввод"> Вопрос с вводом ответа
+                <input><label>Балл за вопрос</label></p>`;
     return text;
 }
 

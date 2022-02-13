@@ -2,6 +2,9 @@ import {generate_question_container, generate_question_info} from './containers_
 
 const questions = document.querySelector('.questions');
 const add_question = document.querySelector('.add_question');
+const create_test = document.querySelector('.create_test');
+const settings = document.querySelector('.settings');
+
 var i = 1;
 
 function AddQuestion(){
@@ -41,4 +44,13 @@ function AddQuestion(){
     questions.appendChild(new_question)
 }
 
+function CreateTest(){
+    var test_name = settings.querySelector("input").value;
+    var is_public = settings.querySelector("input:checked") !== null;
+    for(const question in questions.querySelectorAll("div")){
+        console.log(question.id);
+    }
+}
+
 add_question.addEventListener('click', AddQuestion);
+create_test.addEventListener('click', CreateTest);
