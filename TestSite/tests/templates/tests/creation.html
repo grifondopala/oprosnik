@@ -19,7 +19,10 @@
         <button class = 'add_question'>Добавить вопрос</button>
         <br>
         <button class = 'create_test'>Создать тест</button>
+        {% csrf_token %}
+        <input type="hidden" name="csrfmiddlewaretoken">
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
     <script type="module" src=" {% static 'js/creation.js' %} "></script>
 </body>
 </html>

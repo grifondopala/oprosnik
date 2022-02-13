@@ -36,7 +36,7 @@ function AddQuestion(){
     function add_answer(id, value){
         let answers_box = document.getElementById(`${id}_answers`);
         let new_answer = document.createElement('p');
-        new_answer.innerHTML = value == "Выбор" ? `<input> <input type="checkbox">` : `<input>`;
+        new_answer.innerHTML = value == "Выбор" ? `<input class="question_answer"> <input type="checkbox">` : `<input class="question_answer">`;
         answers_box.appendChild(new_answer);
     }
 
@@ -69,16 +69,9 @@ function CreateTest(){
         questionsArray: questionsArray,
     }
     let json = JSON.stringify(text);
-    console.log(json);
-    $.ajax({
-        url: '/event/save-json/',
-        type: 'POST',
-        contentType: 'application/json; charset=utf-8',
-        data: $.toJSON(json),
-        dataType: 'text',
-        success: function(result) {
-            alert(result.Result);
-        }
+    $.post('', {
+        item_text: json,
+        csrfmiddlewaretoken: document.querySelector('input[name="csrfmiddlewaretoken"]').value,
     });
 }
 
