@@ -13,3 +13,6 @@ class RegistrationForm(forms.Form):
 
 class TestCreationForm(forms.Form):
     name = forms.CharField(max_length=32)
+
+class PasswordChangeForm(forms.Form):
+    password = forms.CharField(max_length = 32)
