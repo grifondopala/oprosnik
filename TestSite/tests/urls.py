@@ -7,4 +7,8 @@ urlpatterns = [
     path('main', main, name = 'main'),
     path('registration', registration),
     path('create-test', creation),
+    path('user-profile', profile),
+    path ('change-password', change_password),
+    # path('my-tests',my_tests),
+    # path('performed-tests',performed_tests),
 ]

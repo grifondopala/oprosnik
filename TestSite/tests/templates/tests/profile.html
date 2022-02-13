@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Профиль пользователя</title>
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+</head>
+<body>
+    <div class = "data">
+        <h4>Мой аккаунт</h4>
+        <div >
+            <label>Логин <input disabled="disabled"  id = 'user_login' > </label>
+            <br>
+            <label>Имя <input disabled = 'disabled' value = '{{first_name }} '></label>
+            <br>
+            <label>Фамилия <input disabled = 'disabled' value = '{{last_name }} '></label>
+            <br>
+            <label><a href = '/change-password'>Сменить пароль</a></label>
+        </div>
+    </div>
+    <div class = "tests">
+        <label> Мои тесты</label>
+        <br>
+        <label>Пройденные тесты</label>
+    </div>
+    <div class = "quit">
+        <a href ='/' ><h4>Выйти из аккаунта<h4></h4></a>
+    </div>
+<script src =" {%static 'js/profile.js'%}"></script>
+</body>
+</html>

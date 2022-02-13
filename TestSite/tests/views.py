@@ -16,10 +16,10 @@ def authorization(request):
             if (find_user.count() == 1):
                 print("успешно")
                 response = redirect('main')
-                response.set_cookie('login', login)
+                response.set_cookie('login', login, )
                 return response
             else:
-                print("ты ебаклак?")
+                print(" в попытках постигнуть великое люди гибнут на пути...")
     else:
         form = AuthorizationForm()
     return render(request, 'tests/authorization.html', {'form': form})
@@ -58,3 +58,11 @@ def creation(request):
         print(request.COOKIES.get('login'))
         pass
     return render(request, 'tests/creation.html')
+
+def profile(request):
+    login = request.COOKIES.get('login')
+    current_user = User.objects.filter(login = login)[0]
+    return render(request, 'tests/profile.html', {'login': login, 'first_name': current_user.first_name, 'last_name' : current_user.last_name})
+
+def change_password(request):
+    return render(request, 'tests/change_password.html')
