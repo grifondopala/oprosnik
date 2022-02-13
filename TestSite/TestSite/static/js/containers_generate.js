@@ -2,24 +2,27 @@ export function generate_question_container(type_question){
     var text = `<label> Тип вопроса: </label>
                 <p><input type="radio" name=${type_question} value="Выбор"> Вопрос с вариантами выбора
                 <input type="radio" name=${type_question} value="Ввод"> Вопрос с вводом ответа
-                <input><label>Балл за вопрос</label></p>`;
+                <input class="grade_question"><label>Балл за вопрос</label></p>`;
     return text;
 }
 
 export function generate_question_info(id, value){
-    var text = `<label> Введите вопрос:</label>
-                <p> <input> </p>`
+    var text = ``
     if (value == "Выбор"){
-        text = text + `<p> Варианты ответа: </p>
+        text = text + `<label> Вопрос с выбором ответа:</label>
+                       <p> <input class="question_input"> </p>
+                       <p> Варианты ответа: </p>
                        <div id=${id}_answers>
-                           <p> <input> <input type="checkbox"> </p>
-                           <p> <input>  <input type="checkbox"> </p>
+                           <p> <input class="question_answer"> <input type="checkbox"> </p>
+                           <p> <input class="question_answer">  <input type="checkbox"> </p>
                        </div>
                        <button class = 'new_field'>Добавить поле ввода</button>`;
     }else{
-        text = text + `<p> Правильные ответы: </p>
+        text = text + `<label> Вопрос с вводом ответа:</label>
+                       <p> <input class="question_input"> </p>
+                       <p> Правильные ответы: </p>
                        <div id=${id}_answers>
-                           <p> <input></p>
+                           <p> <input class="question_answer"></p>
                        </div>
                        <button class = 'new_field'>Добавить поле ввода</button>`;
     }
