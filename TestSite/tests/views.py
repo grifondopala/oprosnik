@@ -66,3 +66,7 @@ def profile(request):
 
 def change_password(request):
     return render(request, 'tests/change_password.html')
+def my_tests(request):
+    return render(request, 'tests/my_tests.html')
+def performed_tests(request):
+    return render(request, 'tests/performed_tests.html')
