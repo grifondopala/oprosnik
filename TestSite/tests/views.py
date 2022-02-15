@@ -1,13 +1,16 @@
 import json
 
 from django.db.models import Count
-from django.http import HttpResponse
+from django.http import HttpResponse , JsonResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
 
 
 from .forms import *
 from .models import *
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 def authorization(request):
     if request.method == 'POST':
@@ -73,20 +76,19 @@ def profile(request):
     return render(request, 'tests/profile.html', {'login': login, 'first_name': current_user.first_name, 'last_name' : current_user.last_name})
 
 def change_password(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.POST)
-        if form.is_valid():
-            login = request.COOKIES.get('login')
-            password = form.cleaned_data['password']
-            find_user = User.objects.filter(login=login, password=password)
-            if (find_user.count() == 1):
-                response = render (request, 'tests/change_password2.html')
-                return response
-            else:
-                return render(request,'tests/invalid_data.html' )
+    if is_ajax(request) and request.method == "POST":
+        data = json.load(request)
+        password = data['password']
+        login = request.COOKIES.get('login')
+        find_user = User.objects.filter(login=login, password=password)
+        if (find_user.count() == 1):
+            return JsonResponse({"check": True}, status = 200)
+        else:
+            return JsonResponse({"check": False}, status=200)
     else:
-        form = PasswordChangeForm()
-    return render(request, 'tests/change_password1.html', {'form': form})
+
+        return render(request, 'tests/change_password1.html')
+
 
 def my_tests(request):
     return render(request, 'tests/my_tests.html')
