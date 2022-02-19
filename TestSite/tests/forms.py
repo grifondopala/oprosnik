@@ -14,5 +14,9 @@ class RegistrationForm(forms.Form):
 class TestCreationForm(forms.Form):
     name = forms.CharField(max_length=32)
 
-class PasswordChangeForm(forms.Form):
+class PasswordForm(forms.Form):
     password = forms.CharField(max_length = 32)
+
+class PasswordChangeForm(forms.Form):
+    new_password = forms.CharField(max_length = 32, label = 'Новый пароль')
+    new_password_confirm = forms.CharField(max_length = 32, label = 'Подтверждение нового пароля')
