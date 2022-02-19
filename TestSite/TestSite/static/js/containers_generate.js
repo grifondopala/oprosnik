@@ -2,14 +2,15 @@ export function generate_question_container(type_question){
     var text = `<label> Тип вопроса: </label>
                 <p><input type="radio" name=${type_question} value="Выбор"> Вопрос с вариантами выбора
                 <input type="radio" name=${type_question} value="Ввод"> Вопрос с вводом ответа
-                <input class="grade_question"><label>Балл за вопрос</label></p>`;
+                <input class="grade_question"><label>Балл за вопрос</label>
+                <button class="delete_question">Удалить вопрос</button></p>`;
     return text;
 }
 
 export function generate_question_info(id, value){
     var text = ``
     if (value == "Выбор"){
-        text = text + `<label> Вопрос с выбором ответа:</label>
+        text = text + `<label>Вопрос с выбором ответа:</label>
                        <p> <input class="question_input"> </p>
                        <p> Варианты ответа: </p>
                        <div id=${id}_answers>
@@ -26,5 +27,15 @@ export function generate_question_info(id, value){
                        </div>
                        <button class = 'new_field'>Добавить поле ввода</button>`;
     }
+    return text;
+}
+export function generate_display_right(url){
+    var text = `<label>Тест успешно создан! Ссылка на тест: http://oprosnik.com/tests/${url}</label>
+                <p><button>Мои тесты</button>
+                <button>На главную</button></p>`;
+    return text;
+}
+export function generate_display_wrong(){
+    var text = `<label>Все поля должны быть заполнены, тест должен содержать хотя бы 1 вопрос</label>`;
     return text;
 }

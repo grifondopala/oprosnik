@@ -11,4 +11,5 @@ urlpatterns = [
     path ('change-password', change_password),
     path('my-tests',my_tests),
     path('performed-tests',performed_tests),
+    path('tests', public_test_list),
 ]

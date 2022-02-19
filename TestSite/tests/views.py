@@ -1,13 +1,17 @@
 import json
+import string
+import random
 
-from django.db.models import Count
-from django.http import HttpResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
 
 
 from .forms import *
 from .models import *
+
+def is_ajax(request):
+    return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 def authorization(request):
     if request.method == 'POST':
@@ -54,18 +58,37 @@ def registration(request):
         form = RegistrationForm()
     return render(request, 'tests/registration.html', {'form': form})
 
+
 def creation(request):
-    if request.method == 'POST':
-        data = json.loads(request.POST.get('item_text',''))
-        name = data['name']
-        is_public = data['is_public']
+
+    def generateUrlTest():
+        array = string.ascii_uppercase + string.ascii_lowercase + string.digits
+        url = ""
+        for _ in range(16):
+            url += array[random.randint(0,len(array)-1)]
+        return url
+
+    if is_ajax(request) and request.method == "POST":
+        url = generateUrlTest()
+        data = json.load(request)
+        creator = User.objects.get(login = request.COOKIES.get('login'))
+        new_test = Test(creator_user=creator, name=data['name'], is_public=data['is_public'], max_grade=data['maxgrade'], url=url)
+        new_test.save()
         questionsArray = data['questionsArray']
         for question in questionsArray:
-            print(question)
-    else:
-        print(request.COOKIES.get('login'))
-        pass
+            new_question = Question(test=new_test, text=question[0], type=question[1], grade=question[2])
+            new_question.save()
+            lenght = len(question)
+            for i in range(3,lenght,1):
+                answer = Answer(question=new_question, text=question[i][0], is_true=question[i][1])
+                answer.save()
+        return JsonResponse({"url": url}, status = 200)
     return render(request, 'tests/creation.html')
+
+def public_test_list(request):
+    if is_ajax(request) and request.method == "POST":
+        pass
+    return render(request, 'tests/tests_list.html')
 
 def profile(request):
     login = request.COOKIES.get('login')
@@ -73,20 +96,18 @@ def profile(request):
     return render(request, 'tests/profile.html', {'login': login, 'first_name': current_user.first_name, 'last_name' : current_user.last_name})
 
 def change_password(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.POST)
-        if form.is_valid():
+    def change_password(request):
+        if is_ajax(request) and request.method == "POST":
+            data = json.load(request)
+            password = data['password']
             login = request.COOKIES.get('login')
-            password = form.cleaned_data['password']
             find_user = User.objects.filter(login=login, password=password)
             if (find_user.count() == 1):
-                response = render (request, 'tests/change_password2.html')
-                return response
+                return JsonResponse({"check": True}, status=200)
             else:
-                return render(request,'tests/invalid_data.html' )
-    else:
-        form = PasswordChangeForm()
-    return render(request, 'tests/change_password1.html', {'form': form})
+                return JsonResponse({"check": False}, status=200)
+        else:
+            return render(request, 'tests/change_password1.html')
 
 def my_tests(request):
     return render(request, 'tests/my_tests.html')
