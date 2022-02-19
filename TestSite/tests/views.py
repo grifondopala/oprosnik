@@ -86,7 +86,6 @@ def change_password(request):
         else:
             return JsonResponse({"check": False}, status=200)
     else:
-
         return render(request, 'tests/change_password1.html')
 
 
