@@ -103,15 +103,23 @@ def profile(request):
     return render(request, 'tests/profile.html', {'login': login, 'first_name': current_user.first_name, 'last_name' : current_user.last_name})
 
 def change_password(request):
+
     if is_ajax(request) and request.method == "POST":
         data = json.load(request)
-        old_password = data['password']
+        password = data['password']
         login = request.COOKIES.get('login')
-        find_user = User.objects.filter(login=login, password=old_password)
-        if (find_user.count() == 1):
-            return JsonResponse({"check": True}, status=200)
+        if data['stage']:
+            find_user = User.objects.filter(login=login, password=password)
+            if (find_user.count() == 1):
+                return JsonResponse({"check": True}, status = 200)
+            else:
+                return JsonResponse({"check": False}, status=200)
         else:
-            return JsonResponse({"check": False}, status=200)
+            find_user_1 = User.objects.filter(login = login)
+            users_new_password = find_user_1[0]
+            users_new_password.password = password
+            users_new_password.save()
+        return JsonResponse({}, status = 200)
     else:
         return render(request, 'tests/change_password1.html')
 
