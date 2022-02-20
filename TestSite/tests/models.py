@@ -13,6 +13,7 @@ class Test(models.Model):
     is_public = models.BooleanField()
     max_grade = models.IntegerField()
     url = models.CharField(max_length=150)
+    count_users = models.IntegerField()
 
 class Question(models.Model):
     test = models.ForeignKey(Test, on_delete=models.CASCADE)

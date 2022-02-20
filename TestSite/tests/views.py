@@ -72,7 +72,7 @@ def creation(request):
         url = generateUrlTest()
         data = json.load(request)
         creator = User.objects.get(login = request.COOKIES.get('login'))
-        new_test = Test(creator_user=creator, name=data['name'], is_public=data['is_public'], max_grade=data['maxgrade'], url=url)
+        new_test = Test(creator_user=creator, name=data['name'], is_public=data['is_public'], max_grade=data['maxgrade'], url=url, count_users = 0)
         new_test.save()
         questionsArray = data['questionsArray']
         for question in questionsArray:
@@ -87,7 +87,14 @@ def creation(request):
 
 def public_test_list(request):
     if is_ajax(request) and request.method == "POST":
-        pass
+        all_tests = Test.objects.all().order_by('count_users')
+        data = json.load(request)
+        page = data['page']
+        new_data = []
+        for i in range(page*10, 10*(page+1)+1):
+            if(i < all_tests.count()):
+                new_data.append([all_tests[i].name, all_tests[i].creator_user.login, all_tests[i].count_users])
+        return JsonResponse({'tests': new_data}, status=200)
     return render(request, 'tests/tests_list.html')
 
 def profile(request):
@@ -96,18 +103,17 @@ def profile(request):
     return render(request, 'tests/profile.html', {'login': login, 'first_name': current_user.first_name, 'last_name' : current_user.last_name})
 
 def change_password(request):
-    def change_password(request):
-        if is_ajax(request) and request.method == "POST":
-            data = json.load(request)
-            password = data['password']
-            login = request.COOKIES.get('login')
-            find_user = User.objects.filter(login=login, password=password)
-            if (find_user.count() == 1):
-                return JsonResponse({"check": True}, status=200)
-            else:
-                return JsonResponse({"check": False}, status=200)
+    if is_ajax(request) and request.method == "POST":
+        data = json.load(request)
+        old_password = data['password']
+        login = request.COOKIES.get('login')
+        find_user = User.objects.filter(login=login, password=old_password)
+        if (find_user.count() == 1):
+            return JsonResponse({"check": True}, status=200)
         else:
-            return render(request, 'tests/change_password1.html')
+            return JsonResponse({"check": False}, status=200)
+    else:
+        return render(request, 'tests/change_password1.html')
 
 def my_tests(request):
     return render(request, 'tests/my_tests.html')
