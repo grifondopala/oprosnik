@@ -9,12 +9,19 @@
 <body>
     <div class="authorization">
         <h1>САЙТ</h1>
-        <form action="" method="post" class="form">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Авторизироваться</button>
+            Введите логин <input class = "input" id = "login_input" >
+            <br>
+            Введите пароль <input class = "input" id = "password_input">
+            <br>
+            <div id = "script"></div>
+            <button type="submit" id = "login_button">Авторизироваться</button>
             <button><a href="/registration">Регистрация</a></button>
-        </form>
     </div>
+
+{% csrf_token %}
+    <input type="hidden" name="csrfmiddlewaretoken">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src =" {%static 'js/authorization.js'%}"></script>
 </body>
 </html>

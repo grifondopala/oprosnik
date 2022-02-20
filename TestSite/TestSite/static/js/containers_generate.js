@@ -31,8 +31,8 @@ export function generate_question_info(id, value){
 }
 export function generate_display_right(url){
     var text = `<label>Тест успешно создан! Ссылка на тест: http://oprosnik.com/tests/${url}</label>
-                <p><button>Мои тесты</button>
-                <button>На главную</button></p>`;
+                <p><button onclick="window.location.href= '/my-tests'">Мои тесты</button>
+                <button onclick="window.location.href= '/main'">На главную</button></p>`;
     return text;
 }
 export function generate_display_wrong(){
