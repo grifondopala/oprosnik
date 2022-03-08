@@ -9,12 +9,23 @@
 <body>
     <div class="registration">
         <h1>Регистрация</h1>
-        <form action="" method="post" class="form">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Регистрация</button>
-            <button><a href ='/' >Авторизация</a></button>
-        </form>
+            <div>
+                <div id = "form">
+                    <input id = "login" placeholder="логин"><br>
+                    <input id = "password" placeholder="Пароль"><br>
+                    <input id = "email" placeholder="E-mail"><br>
+                    <input id = "first_name" placeholder="Имя"><br>
+                    <input id = "last_name" placeholder="Фамилия"><br>
+                </div>
+                <button type="submit" id = "click_to_reg">Регистрация</button>
+                <br>
+                <button><a href ='/' >Авторизация</a></button>
+            </div>
     </div>
+{% csrf_token %}
+    <input type="hidden" name="csrfmiddlewaretoken">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src=" {% static 'js/registration.js' %} "></script>
 </body>
 </html>

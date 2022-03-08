@@ -88,6 +88,7 @@ function GetNewPassword() {
             },
             success: (data) => {
                 console.log(data);
+                window.location.href = '/main'
             },
 
             error: (error) => {
