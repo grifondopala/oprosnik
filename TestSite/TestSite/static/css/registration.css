@@ -2,3 +2,11 @@
     background-color: #cccccc;
     position: absolute;
 }
+body {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    overflow: auto;
+    height: 100vh;
+}

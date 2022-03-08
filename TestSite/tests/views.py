@@ -14,49 +14,46 @@ def is_ajax(request):
     return request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
 
 def authorization(request):
-    if request.method == 'POST':
-        form = AuthorizationForm(request.POST)
-        if form.is_valid():
-            login = form.cleaned_data['login']
-            password = form.cleaned_data['password']
-            find_user = User.objects.filter(login=login, password=password)
-            if (find_user.count() == 1):
-                print("успешно")
-                response = redirect('main')
-                response.set_cookie('login', login, )
-                return response
-            else:
-                print(" в попытках постигнуть великое люди гибнут на пути...")
+    if is_ajax(request) and request.method == 'POST':
+        data = json.load(request)
+        login = data['login']
+        password = data['password']
+        find_user = User.objects.filter(login = login, password = password)
+        if find_user.count() == 1:
+            response = JsonResponse({"stage" : True}, status = 200)
+            response.set_cookie('login', login, )
+            return response
+        else:
+            return JsonResponse({"stage" : False}, status = 200)
     else:
-        form = AuthorizationForm()
-    return render(request, 'tests/authorization.html', {'form': form})
+        return render(request, 'tests/authorization.html', )
 
 def main(request):
     print(request.COOKIES.get('login'))
     return render(request, 'tests/main.html')
 
 def registration(request):
-    if request.method == 'POST':
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            login = form.cleaned_data['login']
-            password = form.cleaned_data['password']
-            email = form.cleaned_data['email']
-            fn = form.cleaned_data['first_name']
-            ln = form.cleaned_data['last_name']
-            find_user = User.objects.filter(login=login)
-            if find_user.count() !=0:
+    if is_ajax(request) and request.method == 'POST':
+        data = json.load(request)
+        login = data['login']
+        password = data['password']
+        email = data['email']
+        first_name = data['first_name']
+        last_name = data['last_name']
+        find_user = User.objects.filter(login=login)
+        if "check" :
+            if find_user.count() != 0:
                 print('Пользователь с таким логином уже существует')
             else:
-                find_user = User.objects.filter(email = email)
-                if find_user.count() !=0:
+                find_user = User.objects.filter(email=email)
+                if find_user.count() != 0:
                     print('Пользователь с такой почтой уже существует')
                 else:
-                    User(login = login, password = password, email = email, first_name = fn, last_name = ln).save()
-
-    else:
-        form = RegistrationForm()
-    return render(request, 'tests/registration.html', {'form': form})
+                    User(login=login, password=password, email=email, first_name=first_name, last_name=last_name).save()
+                    print(login, ' ' , password)
+                    return JsonResponse({"check": True}, status = 200)
+        return  JsonResponse({"check": False}, status = 200)
+    return render(request, 'tests/registration.html')
 
 
 def creation(request):
@@ -133,6 +130,9 @@ def my_tests(request):
         return render (request, 'tests/my_tests.html', {'count' : True})
 
     return render(request, 'tests/my_tests.html')
+
+
+
 
 def performed_tests(request):
     return render(request, 'tests/performed_tests.html')

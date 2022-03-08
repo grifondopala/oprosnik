@@ -1,0 +1,15 @@
+body{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main{
+    flex: 1 1 auto;
+}
+
+footer{
+    min-height: 10%;
+    min-width: 10%;
+    background-color: grey;
+}
