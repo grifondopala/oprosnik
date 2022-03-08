@@ -85,17 +85,18 @@ def creation(request):
         return JsonResponse({"url": url}, status = 200)
     return render(request, 'tests/creation.html')
 
-def public_test_list(request):
+def public_test_list(request, num):
     if is_ajax(request) and request.method == "POST":
         all_tests = Test.objects.all().order_by('count_users')
         data = json.load(request)
-        page = data['page']
+        page = data['page']-1
         new_data = []
-        for i in range(page*10, 10*(page+1)+1):
+        for i in range(page*2, 2*(page+1)):
             if(i < all_tests.count()):
-                new_data.append([all_tests[i].name, all_tests[i].creator_user.login, all_tests[i].count_users])
-        return JsonResponse({'tests': new_data}, status=200)
-    return render(request, 'tests/tests_list.html')
+                new_data.append([all_tests[i].name, all_tests[i].creator_user.login, all_tests[i].url, all_tests[i].count_users])
+        max_page = all_tests.count()//2+1 if(all_tests.count() % 2 != 0) else all_tests.count()//2
+        return JsonResponse({'tests': new_data, 'max_page': max_page, }, status=200)
+    return render(request, 'tests/tests_list.html', {"page": num})
 
 def profile(request):
     login = request.COOKIES.get('login')
@@ -103,20 +104,52 @@ def profile(request):
     return render(request, 'tests/profile.html', {'login': login, 'first_name': current_user.first_name, 'last_name' : current_user.last_name})
 
 def change_password(request):
+
     if is_ajax(request) and request.method == "POST":
         data = json.load(request)
-        old_password = data['password']
+        password = data['password']
         login = request.COOKIES.get('login')
-        find_user = User.objects.filter(login=login, password=old_password)
-        if (find_user.count() == 1):
-            return JsonResponse({"check": True}, status=200)
+        if data['stage']:
+            find_user = User.objects.filter(login=login, password=password)
+            if (find_user.count() == 1):
+                return JsonResponse({"check": True}, status = 200)
+            else:
+                return JsonResponse({"check": False}, status=200)
         else:
-            return JsonResponse({"check": False}, status=200)
+            find_user_1 = User.objects.filter(login = login)
+            users_new_password = find_user_1[0]
+            users_new_password.password = password
+            users_new_password.save()
+        return JsonResponse({}, status = 200)
     else:
         return render(request, 'tests/change_password1.html')
 
 def my_tests(request):
+    login = request.COOKIES.get('login')
+    find_user = User.objects.filter(login = login)
+    if ( find_user.count != 1 ) :
+        return render (request, 'tests/my_tests.html', {'count': False})
+    else:
+        return render (request, 'tests/my_tests.html', {'count' : True})
+
     return render(request, 'tests/my_tests.html')
 
 def performed_tests(request):
     return render(request, 'tests/performed_tests.html')
+
+def solve_test(request, url):
+    if is_ajax(request) and request.method == "GET":
+        test = Test.objects.get(url = url)
+        questions = Question.objects.filter(test = test)
+        test_array = []
+        for question in questions:
+            answers = Answer.objects.filter(question = question)
+            question_array = {'question_text': question.text, 'question_type': question.type, 'question_grade': question.grade, 'question_answers': []}
+            for answer in answers:
+                question_array['question_answers'].append({'answer_text': answer.text, 'is_true': answer.is_true})
+            test_array.append(question_array)
+        return JsonResponse({"test_name": test.name, "test_array": test_array}, status=200)
+    return render(request, 'tests/solve_test.html')
+
+def page_not_found_view(request, exception):
+    return render(request, 'tests/404_error.html')

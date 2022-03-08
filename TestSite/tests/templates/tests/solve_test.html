@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'css/creation.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    {% include 'tests/navbar.html' %}
+    <div class="test_div">
+        <div class="settings">
+            <h1 id="test_name"></h1>
+        </div>
+    </div>
+    <button class="send_answers">Завершить тест</button>
+    {% csrf_token %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script type="module" src=" {% static 'js/solve_test.js' %} "></script>
+</body>
+</html>

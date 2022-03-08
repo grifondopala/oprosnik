@@ -106,14 +106,15 @@ function CreateTest(){
             },
             success: (data) => {
                 let url = data['url'];
-                show_display(url, true)
+                document.querySelector('#successModal').querySelector('.modal-body').innerHTML+=` http://oprosnik.com/tests/${url}`;
+                $('#successModal').modal('toggle');
             },
             error: (error) => {
                 console.log(error);
             }
         });
     }else{
-        show_display("",false);
+        $('#errorModal').modal('toggle');
     }
 }
 
